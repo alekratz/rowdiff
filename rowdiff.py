@@ -24,6 +24,16 @@ class Diff:
             s = ANSI_RED + "- "
         return s + str(self.line) + ANSI_RESET
 
+    def __eq__(self, other: object):
+        if not isinstance(other, Diff):
+            return NotImplemented
+        return self.line == other.line
+
+    def __lt__(self, other: object):
+        if not isinstance(other, Diff):
+            return NotImplemented
+        return self.line < other.line
+
 
 class DiffCol:
     def __init__(self, col: str, diffs: Sequence[Diff]):
@@ -32,7 +42,7 @@ class DiffCol:
 
     def __str__(self) -> str:
         s = "= {} =".format(self.col).ljust(80, "=") + "\n"
-        return s + "\n".join(map(str, self.diffs))
+        return s + "\n".join(map(str, sorted(self.diffs)))
 
     def __bool__(self) -> bool:
         return bool(self.diffs)
@@ -51,7 +61,7 @@ class DiffColGroup:
             if not diffs:
                 continue
             lines += ["{} group {}".format(self.group_name, group)]
-            lines += [" {}".format(diff) for diff in diffs]
+            lines += [" {}".format(diff) for diff in sorted(diffs)]
         return "\n".join(lines)
 
     def __bool__(self) -> bool:
