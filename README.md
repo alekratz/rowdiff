@@ -85,7 +85,7 @@ Output:
 - john
 ```
 
-### Compare all columns between two sets of rows, except for the "company" colunn
+### Compare all columns between two sets of rows, except for the "company" column
 
 Command:
 
