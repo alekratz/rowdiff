@@ -1,6 +1,10 @@
-id,policy,company
-0,pol0,999
-0,pol1,744
-0,pol3,988
-0,pol4,999
-0,pol5,999
+id,user,company
+0,alice,999
+1,bob,744
+3,eve,988
+4,carlos,999
+5,john,999
+6,jacob,757
+7,todd,999
+8,scott,888
+9,yosef,200
