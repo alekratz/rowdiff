@@ -152,7 +152,7 @@ id group 5
  - john
 ```
 
-### Compare which users in company 888 have been added or removed
+### Compare which users in any company have been added or removed
 
 Command:
 
