@@ -1,6 +1,29 @@
 # rowdiff.py
 
-Find differences between two sets of rows in a CSV file.
+Find differences between two sets of rows in two CSV files.
+
+# Diff behavior
+
+The diffs are **set**-oriented. Thus, if you have one CSV file with these contents:
+
+```
+id,user
+0,mike
+```
+
+...and you compare it against this CSV file:
+
+```
+id,user
+0,mike
+1,mike
+2,mike
+3,mike
+```
+
+...and you are *only* looking at the "user" column, then the tool will report the rows as being
+identical. To see the differences, you will want to add the "id" column to the list of columns to
+inspect.
 
 # Installation and requirements
 
@@ -43,28 +66,122 @@ typing.
 
 ### Compare all columns between
 
+Command:
+
 `./rowdiff.py examples/ex0_{1,2}.csv -a`
+
+Output:
+
+```
+= id ===========================================================================
++ 2
+- 8
+= company ======================================================================
++ 100
+- 200
+= user =========================================================================
++ jack
+- scott
+- john
+```
 
 ### Compare all columns between two sets of rows, except for the "company" colunn
 
+Command:
+
 `./rowdiff.py examples/ex0_{1,2}.csv -a -i company`
+
+Output:
+
+```
+= user =========================================================================
++ jack
+- scott
+- john
+= id ===========================================================================
++ 2
+- 8
+```
 
 ### Compare differing values of "user" and "id" columns
 
+Command:
+
 `./rowdiff.py examples/ex0_{1,2}.csv -c user -c id`
+
+Output:
+
+```
+= user =========================================================================
++ jack
+- scott
+- john
+= id ===========================================================================
++ 2
+- 8
+```
 
 ### Compare all pairings of the "id" and "user" columns
 
+Command:
+
 `./rowdiff.py examples/ex0_{1,2}.csv -c id,user`
+
+Output:
+
+```
+= id,user ======================================================================
++ ('5', 'jack')
++ ('2', 'jacob')
+- ('5', 'john')
+- ('8', 'scott')
+```
 
 ### Compare all columns that have the same "id" value, but different "user" values
 
+Command:
+
 `./rowdiff.py examples/ex0_{1,2}.csv -g id -c user`
+
+Output:
+
+```
+= user =========================================================================
+id group 5
+ + jack
+ - john
+```
 
 ### Compare which users in company 888 have been added or removed
 
+Command:
+
 `./rowdiff.py examples/ex0_{1,2}.csv -g company -c user`
+
+Output:
+
+```
+company group 999
+ + jack
+ - john
+company group 888
+ + jacob
+ - scott
+```
 
 ### Compare users whose company has changed
 
+Command:
+
 `./rowdiff.py examples/ex0_{1,2}.csv -g user -c company`
+
+Output:
+
+```
+= company ======================================================================
+user group jacob
+ + 888
+user group yosef
+ + 100
+ - 200
+```
